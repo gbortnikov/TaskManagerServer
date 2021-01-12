@@ -76,7 +76,10 @@
   <ItemGroup>
     <Compile Include="Bd\BdContext.cs" />
     <Compile Include="Bd\Command.cs" />
+    <Compile Include="Bd\Project.cs" />
+    <Compile Include="Bd\Task.cs" />
     <Compile Include="Bd\User.cs" />
+    <Compile Include="Bd\UserInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ws\ProcessingResponsesWS.cs" />

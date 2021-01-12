@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TaskManagerServer.Bd;
 
 namespace ServerEntity.Bd
 {
@@ -18,6 +13,7 @@ namespace ServerEntity.Bd
         public string Login { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public UserInfo Info { get; set; }
 
     }
 }

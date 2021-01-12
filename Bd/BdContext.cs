@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using TaskManagerServer.Bd;
 
 namespace ServerEntity.Bd
 {
@@ -10,7 +11,8 @@ namespace ServerEntity.Bd
         public BdContext()
             : base("DBTaskmanager") { }
         public DbSet<User> users { get; set; }
+        public DbSet<UserInfo> userInfos  { get; set; }
 
-      
+
     }
 }

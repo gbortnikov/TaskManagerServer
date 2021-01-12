@@ -3,6 +3,7 @@ using ServerEntity.Bd;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using TaskManagerServer.Bd;
 
 namespace Ws
 {
@@ -58,6 +59,15 @@ namespace Ws
                 Answer ans = new Answer();
                 ans.command = "DELUSER";
                 ans.status = Command.DelUser(delUser);
+                AnswerBD = JsonConvert.SerializeObject(ans);
+                Console.WriteLine($"Answer: {AnswerBD}");
+            }
+            else if (jsonCommand["command"] == "INFO")
+            {
+                var addInfo = JsonConvert.DeserializeObject<UserInfo>(json);
+                Answer ans = new Answer();
+                ans.command = "INFO";
+                ans.status = Command.AddNewInfo(addInfo);
                 AnswerBD = JsonConvert.SerializeObject(ans);
                 Console.WriteLine($"Answer: {AnswerBD}");
             }
