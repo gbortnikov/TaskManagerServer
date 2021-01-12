@@ -90,7 +90,7 @@ namespace ServerEntity.Bd
                     answer = 1;
 
                     foreach (User user in context.users.Include(ut=>ut.Info))
-                        Console.WriteLine("  Login: {0}  Password: {1} name{2} surname{3}",
+                        Console.WriteLine("  Login: {0}  Password: {1} name: {2} surname: {3}",
                                  user.Login, user.Password, user.Info.name, user.Info.surname);
             }
                 catch
