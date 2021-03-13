@@ -7,7 +7,7 @@ namespace TaskManagerServer.Bd
 {
     public class Taskk
     {
-        //[ForeignKey("User")]
+        //[ForeignKey("User")] 
         public int Id { get; set; }
         public string Name { get; set; }
         public int Condition { get; set; }
