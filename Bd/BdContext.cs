@@ -10,8 +10,10 @@ namespace ServerEntity.Bd
         // Контекст настроен для использова
         public BdContext()
             : base("DBTaskmanager") { }
-        public DbSet<User> users { get; set; }
-        public DbSet<UserInfo> userInfos  { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserInfo> UserInfos { get; set; }
+        public DbSet<Taskk> Taskks { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
 
     }

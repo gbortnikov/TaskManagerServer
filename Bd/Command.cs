@@ -17,7 +17,7 @@ namespace ServerEntity.Bd
             {
                 try
                 {
-                    context.users.Add(user);
+                    context.Users.Add(user);
                     context.SaveChanges();
                     answer = 1;
                 }
@@ -34,9 +34,9 @@ namespace ServerEntity.Bd
             int answer = 0;
             using (var context = new BdContext())
             {
-                if (context.users.FirstOrDefault(u => u.Login == user.Login) != null)
+                if (context.Users.FirstOrDefault(u => u.Login == user.Login) != null)
                 {
-                    if (context.users.FirstOrDefault(u => u.Password == user.Password) != null)
+                    if (context.Users.FirstOrDefault(u => u.Password == user.Password) != null)
                     {
                         Console.WriteLine("{0}{1}", user.Login, user.Email);
                         Console.WriteLine("AUTH OK");
@@ -62,10 +62,10 @@ namespace ServerEntity.Bd
             int answer = 0;
             using (var context = new BdContext())
             {
-                var us = context.users.FirstOrDefault(u => u.Login == user.Login && u.Password == user.Password);
+                var us = context.Users.FirstOrDefault(u => u.Login == user.Login && u.Password == user.Password);
                 try
                 {
-                    context.users.Remove(us);
+                    context.Users.Remove(us);
                     answer = 1;
                 }
                 catch
@@ -84,14 +84,16 @@ namespace ServerEntity.Bd
             {
                 try
                 {
-                    userInfo.Id = context.users.FirstOrDefault(u => u.Login == userInfo.login).Id;
-                    context.userInfos.Add(userInfo);
+                    userInfo.Id = context.Users.FirstOrDefault(u => u.Login == userInfo.Login).Id;
+                    context.UserInfos.Add(userInfo);
                     context.SaveChanges();
                     answer = 1;
 
-                    foreach (User user in context.users.Include(ut => ut.Info))
+                    foreach (User user in context.Users.Include(ut => ut.Info))
+                    {
                         Console.WriteLine("  Login: {0}  Password: {1} name: {2} surname: {3}",
-                                 user.Login, user.Password, user.Info.name, user.Info.surname);
+                                 user.Login, user.Password, user.Info.Name, user.Info.Surname);
+                    }
                 }
                 catch
                 {
@@ -101,8 +103,145 @@ namespace ServerEntity.Bd
             return answer;
         }
 
+        static public int AddNewProject(Project proj)
+        {
+            int answer = 0;
+            using (var context = new BdContext())
+            {
+                try
+                {
+                    context.Projects.Add(proj);
+                    context.SaveChanges();
+                    answer = 1;
 
+                    foreach (var pr in context.Projects)
+                    {
+                        Console.WriteLine("  Name: {0} Discription{1}",
+                                 pr.Name, pr.Description);
+                    }
+                }
+                catch
+                {
+                    answer = -1;
+                }
+            }
+            return answer;
+        }
+        static public int GetListProject(List<string> prList)
+        {
+            int answer = 1;
+            using (var context = new BdContext())
+            {
+                foreach (var pr in context.Projects)
+                {
+                    prList.Add(pr.Name);
+                }
+            }
+            return answer;
+        }
+        static public int GetListUser(List<string> usList)
+        {
 
+            int answer = 1;
+            using (var context = new BdContext())
+            {
+                foreach (var user in context.Users)
+                {
+                    usList.Add(user.Login);
+                }
+            }
+            return answer;
+        }
 
+        static public int NewUserProject(string namePr, string login)
+        {
+            int answer = 1;
+            using (var context = new BdContext())
+            {
+                Project pr = context.Projects.FirstOrDefault(x => x.Name == namePr);
+                User us = context.Users.FirstOrDefault(x => x.Login == login);
+                pr.Users.Add(us);
+                context.Entry(pr).State = EntityState.Modified;
+                context.SaveChanges();
+
+                //foreach (var p in context.Projects.Include(x => x.Users)){
+                //    Console.WriteLine("Project:{0}", p.Name);
+                //    foreach (var u in p.Users.ToList())
+                //    {
+                //        Console.WriteLine("user:{0}", u.Login);
+                //    }
+                //    Console.WriteLine("-------");
+                //}
+            }
+            return answer;
+        }
+
+        static public int AddNewTask(Taskk task, string projectName, string login)
+        {
+            int answer = 0;
+            using (var context = new BdContext())
+            {
+                try
+                {
+                    task.User = context.Users.FirstOrDefault(u => u.Login == login);
+                task.Project = context.Projects.FirstOrDefault(p => p.Name == projectName);
+                context.Taskks.Add(task);
+                context.SaveChanges();
+                answer = 1;
+
+                //foreach (var ts in context.Taskks.Include(ut => ut.User))
+                //{
+                //    Console.WriteLine("  Login: {0}  Password: {1} namePJ: {2} Discr: {3}",
+                //              ts.UserId, ts.User.Password, ts.Name, ts.Description);
+                //}
+                }
+                catch { answer = -1; }
+            }
+            return answer;
+        }
+
+        static public int GetListMyProject(List<string> myList, string login)
+        {
+            int answer = 0;
+            using (var context = new BdContext())
+            {
+                try
+                {
+                    foreach (var pr in context.Projects.Include(x => x.Users))
+                    {
+                        foreach (var u in pr.Users)
+                        {
+                            if (u.Login == login)
+                                myList.Add(pr.Name);
+                        }
+                    }
+                    answer = 1;
+                }
+                catch { answer = -1; }
+            }
+            return answer;
+        }
+
+        static public int GetListMyTask(List<Taskk> myList, string login)
+        {
+            int answer = 0;
+            using (var context = new BdContext())
+            {
+                //try
+                //{
+                    foreach (var pr in context.Taskks.Include(x => x.User))
+                    {
+                    if (pr.User.Login == login)
+                    {
+                        pr.User = null;
+                        myList.Add(pr);
+                    }
+                    }
+                    answer = 1;
+                //}
+                //catch { answer = -1; }
+            }
+            return answer;
+        }
     }
 }

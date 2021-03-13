@@ -16,16 +16,9 @@ namespace ServerEntity
             WebSocket web = new WebSocket();
             web.WSInit(8888);
 
-            //using (var context = new BdContext())
+            //using (var db = new BdContext())
             //{
-            //    var user = new User()
-            //    {
-            //        Email = "@@",
-            //        Login = "qwerty",
-            //        Password = "123"
-            //    };
-            //    context.users.Add(user);
-            //    context.SaveChanges();
+            //    db.Database.Connection.Open();
             //}
             Console.ReadKey();
 

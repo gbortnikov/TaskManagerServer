@@ -1,19 +1,24 @@
-﻿using System;
+﻿using ServerEntity.Bd;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TaskManagerServer.Bd
 {
-    public class Task
+    public class Taskk
     {
+        //[ForeignKey("User")]
         public int Id { get; set; }
         public string Name { get; set; }
         public int Condition { get; set; }
-        public int Description { get; set; }
+        public string Description { get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime EndDate { get; set; }
+
+        public int ProjectID { get; set; }
         public Project Project { get; set; }
-        public UserInfo UserInfo { get; set; }
+        public int? UserId { get; set; }
+        public User User { get; set; }
 
 
 
